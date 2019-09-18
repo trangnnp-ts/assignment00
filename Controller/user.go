@@ -3,8 +3,9 @@ package user
 import (
 	"encoding/json"
 	"net/http"
-	"github.com/trangnnp-ts/assignment00/Model"
+
 	"github.com/go-chi/chi"
+	maindata "github.com/trangnnp-ts/assignment00/Model"
 )
 
 type UserRequest struct {

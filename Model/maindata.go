@@ -2,10 +2,11 @@ package maindata
 
 import (
 	"context"
-	"github.com/trangnnp-ts/assignment00/db"
 	"log"
 	"math/rand"
 	"time"
+
+	"github.com/trangnnp-ts/assignment00/db"
 
 	"gopkg.in/mgo.v2/bson"
 )
@@ -30,11 +31,10 @@ func Add(full string, short string) Dataa {
 		Used:        0,
 		CreatedDate: time.Now(),
 		UpdateDate:  time.Now()}
-	insertResult, errr := collec.InsertOne(context.TODO(), &data)
+	_, errr := collec.InsertOne(context.TODO(), &data)
 	if errr != nil {
 		log.Fatal(errr)
 	}
-	log.Fatal(insertResult)
 	return data
 }
 
