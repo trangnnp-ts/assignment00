@@ -6,6 +6,6 @@ import (
 )
 
 func main() {
-	db.DB_connect()
+	db.DB_connectMySQL()
 	router.Routerdef()
 }
