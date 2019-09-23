@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi"
-	maindata "github.com/trangnnp-ts/assignment00/Model"
+	maindata "github.com/trangnnp-ts/assignment00/model"
 )
 
 type UserRequest struct {
