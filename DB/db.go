@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 
-	//"reflect"
 	"database/sql"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -25,23 +24,24 @@ func DB_connect() {
 	fmt.Println("Connected to MongoDB!")
 }
 
-var DBB *sql.DB
+//var DBB *sql.DB
+var InsertData *sql.Stmt
 
-func DB_connectMySQL() {
+func DB_connectMySQL() *sql.DB {
 	// Create the database handle, confirm driver is present
+	fmt.Println("Connect Database...")
 	DBB, err := sql.Open("mysql", "trang:@tcp(127.0.0.1:3306)/shortenurl")
 
 	if err != nil {
 		fmt.Println(err)
 	}
-	insert, err := DBB.Query("INSERT INTO test VALUES ( 2, 'TEST' )")
-	fmt.Println(insert)
-	defer DBB.Close()
-
-	// Connect and check the server version
-	var version string
-	DBB.QueryRow("SELECT VERSION()").Scan(&version)
-	fmt.Println("Connected to:", version)
+	//insert, err := DBB.Query("INSERT INTO test VALUES ( 'fulllll', 'shortttt' )")
+	//fmt.Println(insert)
+	// InsertData, es := DBB.Prepare("insert into test values(?,?)")
+	// if es != nil {
+	// 	log.Println(es, InsertData)
+	// }
+	return DBB
 }
 
 func GetCollection(name string) *mongo.Collection {

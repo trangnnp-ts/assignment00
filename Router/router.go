@@ -14,5 +14,6 @@ func Routerdef() {
 	routerx.Get("/data", user.GetAll)
 	routerx.Put("/data/{alias}", user.Update)
 	routerx.Delete("/data/{alias}", user.Remove)
-	http.ListenAndServe(":3000", routerx)
+
+	http.ListenAndServe(":5000", routerx)
 }

@@ -2,6 +2,7 @@ package maindata
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"math/rand"
 	"time"
@@ -12,39 +13,69 @@ import (
 )
 
 type Dataa struct {
-	FullLink    string    `bson:"fulllink"`
-	ShortenLink string    `bson:"shortenlink"`
-	Used        int       `bson:"used"`
-	CreatedDate time.Time `bson:"createddate"`
-	UpdateDate  time.Time `bson:"updatedate"`
+	FullLink    string `bson:"fulllink"`
+	ShortenLink string `bson:"shortenlink"`
 }
 
-func Add(full string, short string) Dataa {
-	collec := db.GetCollection("maindatas")
+// type Dataa struct {
+// 	FullLink    string    `bson:"fulllink"`
+// 	ShortenLink string    `bson:"shortenlink"`
+// 	Used        int       `bson:"used"`
+// 	CreatedDate time.Time `bson:"createddate"`
+// 	UpdateDate  time.Time `bson:"updatedate"`
+// }
 
+func Add(full string, short string) Dataa {
+	//collec := db.GetCollection("maindatas")
+	fmt.Println(full, short)
 	if short == "" {
 		short = "Trang." + RandStringBytes(9)
 	}
+	// data := Dataa{
+	// 	FullLink:    full,
+	// 	ShortenLink: short,
+	// 	Used:        0,
+	// 	CreatedDate: time.Now(),
+	// 	UpdateDate:  time.Now()}
 	data := Dataa{
 		FullLink:    full,
-		ShortenLink: short,
-		Used:        0,
-		CreatedDate: time.Now(),
-		UpdateDate:  time.Now()}
-	_, errr := collec.InsertOne(context.TODO(), &data)
-	if errr != nil {
-		log.Fatal(errr)
+		ShortenLink: short}
+	//_, err := collec.InsertOne(context.TODO(), &data)
+	db := db.DB_connectMySQL()
+	insertData, err := db.Prepare("insert into test values(?,?)")
+	if err != nil {
+		log.Println(err)
+	}
+	_, err = insertData.Exec(full, short)
+	if err != nil {
+		log.Println(err)
 	}
 	return data
 }
 
 func GetOne(alias string) Dataa {
-	collec := db.GetCollection("maindatas")
-	filter := bson.M{"$or": []bson.M{bson.M{"fulllink": alias}, bson.M{"shortenlink": alias}}}
-	var p Dataa
-	if err := collec.FindOne(context.TODO(), filter).Decode(&p); err != nil {
-		log.Fatal(err)
+	//collec := db.GetCollection("maindatas")
+	//filter := bson.M{"$or": []bson.M{bson.M{"fulllink": alias}, bson.M{"shortenlink": alias}}}
+	// if err := collec.FindOne(context.TODO(), filter).Decode(&p); err != nil {
+	// 	log.Fatal(err)
+	// }
+	db := db.DB_connectMySQL()
+	selDB, err := db.Query("SELECT * FROM test WHERE short=?", alias)
+	if err != nil {
+		panic(err.Error())
 	}
+
+	p := Dataa{}
+	for selDB.Next() {
+		var full, short string
+		err = selDB.Scan(&full, &short)
+		if err != nil {
+			panic(err.Error())
+		}
+		p.FullLink = full
+		p.ShortenLink = short
+	}
+
 	return p
 }
 

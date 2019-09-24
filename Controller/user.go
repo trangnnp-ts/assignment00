@@ -2,6 +2,7 @@ package user
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/go-chi/chi"
@@ -14,6 +15,7 @@ type UserRequest struct {
 }
 
 func InputData(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Add data called...")
 	var a UserRequest
 	if r.Body == nil {
 		http.Error(w, "Please send a request body", 400)
@@ -24,6 +26,7 @@ func InputData(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), 400)
 		return
 	}
+	fmt.Println(a)
 	result := maindata.Add(a.Full, a.Short)
 	respondWithJson(w, http.StatusOK, result)
 }

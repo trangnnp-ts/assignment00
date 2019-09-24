@@ -1,11 +1,14 @@
 package main
 
 import (
-	"github.com/trangnnp-ts/assignment00/db"
+	"fmt"
+
+	//"github.com/trangnnp-ts/assignment00/db"
 	"github.com/trangnnp-ts/assignment00/router"
 )
 
 func main() {
-	db.DB_connectMySQL()
+	fmt.Println("Running....")
+	//db.DB_connectMySQL()
 	router.Routerdef()
 }
