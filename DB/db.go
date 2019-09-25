@@ -30,7 +30,7 @@ var InsertData *sql.Stmt
 func DB_connectMySQL() *sql.DB {
 	// Create the database handle, confirm driver is present
 	fmt.Println("Connect Database...")
-	DBB, err := sql.Open("mysql", "trang:@tcp(127.0.0.1:3306)/shortenurl")
+	DBB, err := sql.Open("mysql", "trangx:@tcp(127.0.0.1:3306)/shortenurl")
 
 	if err != nil {
 		fmt.Println(err)
